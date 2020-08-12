@@ -69,6 +69,10 @@ export function encode(value) {
 
 const NEXTKEY = Symbol();
 
+export function isEncodedKey(key) {
+  return key[0] === '\0';
+}
+
 export function decode(key) {
   let i = 0;
   if (key[0] !== '\0') throw Error('decode.not_encoded_key');

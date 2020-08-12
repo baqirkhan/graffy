@@ -33,7 +33,9 @@
   },
   "homepage": "https://graffy.js.org",
   "dependencies": {
-    "@babel/runtime": "^7.9.2"
+    "@babel/runtime": "^7.9.2",
+    "blake3": "^2.1.4",
+    "sqlate": "^2.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
@@ -67,6 +69,7 @@
     "nanoid": "^3.1.3",
     "next": "9.2.x",
     "nodemon": "^2.0.3",
+    "pg": "^8.3.0",
     "prettier": "^2.0.4",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
