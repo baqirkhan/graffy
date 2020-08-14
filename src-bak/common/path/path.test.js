@@ -1,4 +1,4 @@
-import { unwrap } from '.';
+import { unwrap, remove } from '.';
 
 describe('unwrap', () => {
   test('root', () => {
@@ -23,7 +23,6 @@ describe('unwrap', () => {
   });
 });
 
-/*
 describe('remove', () => {
   test('last', () => {
     expect(remove([{ key: 'foo', value: '10' }], ['foo'])).toEqual([]);
@@ -64,4 +63,3 @@ describe('remove', () => {
     ).toEqual([{ key: 'root', children: [{ key: 'bar', value: '10' }] }]);
   });
 });
-*/

@@ -1,2 +1,1 @@
-import Graffy from './Graffy';
-export default Graffy;
+export { default as makeStore } from './core.js';

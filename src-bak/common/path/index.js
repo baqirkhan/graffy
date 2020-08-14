@@ -1,17 +1,16 @@
-import { find, isRange } from '../node/index.js';
+import { getIndex, isRange, isBranch } from '../node';
 
-export const PATH_SEPARATOR = '.';
-
-function comparator(target) {
-  return ({ key }) => (target < key ? -1 : target > key ? 1 : 0);
-}
+export const PATH_SEPARATOR = '/';
 
 export function makePath(path) {
-  if (typeof path === 'string') return path.split(PATH_SEPARATOR);
   if (Array.isArray(path) && path.every((key) => typeof key === 'string')) {
     return path;
   }
-  throw Error('makePath.path_not_string');
+  if (typeof path !== 'string') throw Error('makePath.path_not_string');
+  if (!path.length || path === PATH_SEPARATOR) return [];
+
+  const pathArray = path.split(PATH_SEPARATOR);
+  return pathArray[0] === '' ? pathArray.slice(1) : pathArray;
 }
 
 export function wrapValue(value, path, version = 0) {
@@ -37,14 +36,12 @@ export function unwrap(graph, path) {
     const key = path[i];
     children = node.children;
     if (!children) return null; // This path does not exist.
-    node = children[find(children, comparator(key))];
+    node = children[getIndex(children, key)];
     if (!node || node.key > key) return undefined; // We lack knowledge.
     if (isRange(node)) return null; // This is known to be null.
   }
   return node.children || node.value;
 }
-
-/*
 
 export function remove(children, path) {
   if (!Array.isArray(path)) throw Error('del.path_not_array ' + path);
@@ -52,7 +49,7 @@ export function remove(children, path) {
   if (!path.length) return []; // Remove everything.
 
   const key = path[0];
-  const ix = find(children, comparator(key));
+  const ix = getIndex(children, key);
   const node = children[ix];
   if (!node || node.key > key || isRange(node)) return children;
 
@@ -66,13 +63,9 @@ export function remove(children, path) {
 
   // Recurse into the next slice.
   const filteredChildren = remove(node.children, path.slice(1));
-
-  // This seems to be incorrect: path.chidren? Caught by TSC.
   if (filteredChildren === path.children) return children;
   const filteredNode = filteredChildren.length
     ? { ...node, children: filteredChildren }
     : [];
   return children.slice(0, ix).concat(filteredNode, children.slice(ix + 1));
 }
-
-*/
